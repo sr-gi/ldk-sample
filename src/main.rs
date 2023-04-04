@@ -4,6 +4,7 @@ mod cli;
 mod convert;
 mod disk;
 mod hex_utils;
+mod tower;
 
 use crate::bitcoind_client::BitcoindClient;
 use crate::disk::FilesystemLogger;
@@ -15,7 +16,7 @@ use bitcoin::BlockHash;
 use bitcoin_bech32::WitnessProgram;
 use lightning::chain;
 use lightning::chain::chaininterface::{BroadcasterInterface, ConfirmationTarget, FeeEstimator};
-use lightning::chain::keysinterface::{EntropySource, InMemorySigner, KeysManager};
+use lightning::chain::keysinterface::EntropySource;
 use lightning::chain::{chainmonitor, ChannelMonitorUpdateStatus};
 use lightning::chain::{Filter, Watch};
 use lightning::ln::channelmanager;
@@ -30,7 +31,7 @@ use lightning::routing::gossip::{NodeId, P2PGossipSync};
 use lightning::routing::router::DefaultRouter;
 use lightning::util::config::UserConfig;
 use lightning::util::events::{Event, PaymentPurpose};
-use lightning::util::ser::ReadableArgs;
+use lightning::util::ser::{Readable, ReadableArgs};
 use lightning_background_processor::{BackgroundProcessor, GossipSync};
 use lightning_block_sync::init;
 use lightning_block_sync::poll;
@@ -51,6 +52,8 @@ use std::path::Path;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, SystemTime};
+
+use tower::{WatchtowerKeysManager, WatchtowerSigner};
 
 pub(crate) enum HTLCStatus {
 	Pending,
@@ -79,7 +82,7 @@ pub(crate) struct PaymentInfo {
 pub(crate) type PaymentInfoStorage = Arc<Mutex<HashMap<PaymentHash, PaymentInfo>>>;
 
 type ChainMonitor = chainmonitor::ChainMonitor<
-	InMemorySigner,
+	WatchtowerSigner,
 	Arc<dyn Filter + Send + Sync>,
 	Arc<BitcoindClient>,
 	Arc<BitcoindClient>,
@@ -105,7 +108,7 @@ type OnionMessenger = SimpleArcOnionMessenger<FilesystemLogger>;
 
 async fn handle_ldk_events(
 	channel_manager: &Arc<ChannelManager>, bitcoind_client: &BitcoindClient,
-	network_graph: &NetworkGraph, keys_manager: &KeysManager,
+	network_graph: &NetworkGraph, keys_manager: &WatchtowerKeysManager,
 	inbound_payments: &PaymentInfoStorage, outbound_payments: &PaymentInfoStorage,
 	network: Network, event: &Event,
 ) {
@@ -465,7 +468,8 @@ async fn start_ldk() {
 		key
 	};
 	let cur = SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap();
-	let keys_manager = Arc::new(KeysManager::new(&keys_seed, cur.as_secs(), cur.subsec_nanos()));
+	let keys_manager =
+		Arc::new(WatchtowerKeysManager::new(&keys_seed, cur.as_secs(), cur.subsec_nanos()));
 
 	// Step 7: Read ChannelMonitor state from disk
 	let mut channelmonitors =
