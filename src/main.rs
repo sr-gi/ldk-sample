@@ -170,6 +170,7 @@ async fn handle_ldk_events(
 			via_user_channel_id: _,
 			claim_deadline: _,
 			onion_fields: _,
+			counterparty_skimmed_fee_msat: _,
 		} => {
 			println!(
 				"\nEVENT: received payment from payment hash {} of {} millisatoshis",
@@ -389,6 +390,7 @@ async fn handle_ldk_events(
 			// the funding transaction either confirms, or this event is generated.
 		}
 		Event::HTLCIntercepted { .. } => {}
+		Event::BumpTransaction(_) => {}
 	}
 }
 
