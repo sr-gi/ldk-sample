@@ -115,7 +115,7 @@ pub(crate) async fn periodic_sweep(
 				) {
 					// Note that, most likely, we've already sweeped this set of outputs
 					// and they're already confirmed on-chain, so this broadcast will fail.
-					bitcoind_client.broadcast_transaction(&spending_tx);
+					bitcoind_client.broadcast_transactions(&[&spending_tx]);
 				} else {
 					lightning::log_error!(
 						logger,
