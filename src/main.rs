@@ -638,13 +638,13 @@ async fn start_ldk() {
 		chan_handler: channel_manager.clone(),
 		route_handler: gossip_sync.clone(),
 		onion_message_handler: onion_messenger.clone(),
+		custom_message_handler: IgnoringMessageHandler {},
 	};
 	let peer_manager: Arc<PeerManager> = Arc::new(PeerManager::new(
 		lightning_msg_handler,
 		current_time.try_into().unwrap(),
 		&ephemeral_bytes,
 		logger.clone(),
-		IgnoringMessageHandler {},
 		Arc::clone(&keys_manager),
 	));
 
