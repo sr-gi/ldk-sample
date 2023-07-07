@@ -5,7 +5,7 @@ use std::time::Duration;
 use std::{fs, io};
 
 use lightning::chain::chaininterface::{BroadcasterInterface, ConfirmationTarget, FeeEstimator};
-use lightning::chain::keysinterface::{EntropySource, KeysManager, SpendableOutputDescriptor};
+use lightning::sign::{EntropySource, KeysManager, SpendableOutputDescriptor};
 use lightning::util::logger::Logger;
 use lightning::util::persist::KVStorePersister;
 use lightning::util::ser::{Readable, WithoutLength};

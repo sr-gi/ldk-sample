@@ -14,9 +14,6 @@ use bitcoin::network::constants::Network;
 use bitcoin::BlockHash;
 use bitcoin_bech32::WitnessProgram;
 use lightning::chain;
-use lightning::chain::keysinterface::{
-	EntropySource, InMemorySigner, KeysManager, SpendableOutputDescriptor,
-};
 use lightning::chain::{chainmonitor, ChannelMonitorUpdateStatus};
 use lightning::chain::{Filter, Watch};
 use lightning::events::{Event, PaymentFailureReason, PaymentPurpose};
@@ -30,6 +27,7 @@ use lightning::onion_message::SimpleArcOnionMessenger;
 use lightning::routing::gossip;
 use lightning::routing::gossip::{NodeId, P2PGossipSync};
 use lightning::routing::router::DefaultRouter;
+use lightning::sign::{EntropySource, InMemorySigner, KeysManager, SpendableOutputDescriptor};
 use lightning::util::config::UserConfig;
 use lightning::util::persist::KVStorePersister;
 use lightning::util::ser::ReadableArgs;
