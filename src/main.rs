@@ -23,7 +23,7 @@ use lightning::ln::channelmanager::{
 };
 use lightning::ln::peer_handler::{IgnoringMessageHandler, MessageHandler, SimpleArcPeerManager};
 use lightning::ln::{PaymentHash, PaymentPreimage, PaymentSecret};
-use lightning::onion_message::SimpleArcOnionMessenger;
+use lightning::onion_message::{DefaultMessageRouter, SimpleArcOnionMessenger};
 use lightning::routing::gossip;
 use lightning::routing::gossip::{NodeId, P2PGossipSync};
 use lightning::routing::router::DefaultRouter;
@@ -627,6 +627,8 @@ async fn start_ldk() {
 		Arc::clone(&keys_manager),
 		Arc::clone(&keys_manager),
 		Arc::clone(&logger),
+		Arc::new(DefaultMessageRouter {}),
+		IgnoringMessageHandler {},
 		IgnoringMessageHandler {},
 	));
 	let mut ephemeral_bytes = [0; 32];
