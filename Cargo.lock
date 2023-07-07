@@ -257,18 +257,17 @@ checksum = "201de327520df007757c1f0adce6e827fe8562fbc28bfd9c15571c66ca1f5f79"
 
 [[package]]
 name = "lightning"
-version = "0.0.115"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e009e1c0c21f66378b491bb40f548682138c63e09db6f3a05af59f8804bb9f4a"
+version = "0.0.116-alpha1"
+source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
 dependencies = [
  "bitcoin",
+ "musig2",
 ]
 
 [[package]]
 name = "lightning-background-processor"
-version = "0.0.115"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "721b05b9848a09d5b943915449b5ffb31e24708007763640cf9d79b124a17e19"
+version = "0.0.116-alpha1"
+source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
 dependencies = [
  "bitcoin",
  "lightning",
@@ -277,9 +276,8 @@ dependencies = [
 
 [[package]]
 name = "lightning-block-sync"
-version = "0.0.115"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c60cf241b3c219ee865aad91eab85a879b23c1756a335a5a311790ad6c1c3d2"
+version = "0.0.116-alpha1"
+source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
 dependencies = [
  "bitcoin",
  "chunked_transfer",
@@ -289,9 +287,8 @@ dependencies = [
 
 [[package]]
 name = "lightning-invoice"
-version = "0.23.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c4e44b0e2822c8811470137d2339fdfe67a699b3248bb1606d1d02eb6a1e9f0a"
+version = "0.24.0-alpha1"
+source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
 dependencies = [
  "bech32 0.9.1",
  "bitcoin",
@@ -303,9 +300,8 @@ dependencies = [
 
 [[package]]
 name = "lightning-net-tokio"
-version = "0.0.115"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4561ec5d4df2dd410a8b80955791fcfb007ef9210395db6e914b9527397b868c"
+version = "0.0.116-alpha1"
+source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
 dependencies = [
  "bitcoin",
  "lightning",
@@ -314,9 +310,8 @@ dependencies = [
 
 [[package]]
 name = "lightning-persister"
-version = "0.0.115"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c52ed57ec33fb945f464b7e91b5df49f49fec649e1b44909f3ce517e96b0449a"
+version = "0.0.116-alpha1"
+source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
 dependencies = [
  "bitcoin",
  "libc",
@@ -326,9 +321,8 @@ dependencies = [
 
 [[package]]
 name = "lightning-rapid-gossip-sync"
-version = "0.0.115"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dd84d74a9b3892db22a60ac11dfc12e76b257b3174db6743e818ecc24834f3be"
+version = "0.0.116-alpha1"
+source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
 dependencies = [
  "bitcoin",
  "lightning",
@@ -378,6 +372,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b9f1c5b025cda876f66ef43a113f91ebc9f4ccef34843000e0adf6ebbab84e21"
 dependencies = [
  "winapi",
+]
+
+[[package]]
+name = "musig2"
+version = "0.1.0"
+source = "git+https://github.com/arik-so/rust-musig2?rev=27797d7#27797d78cf64e8974e38d7f31ebb11e455015a9e"
+dependencies = [
+ "bitcoin",
 ]
 
 [[package]]
