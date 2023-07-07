@@ -27,6 +27,7 @@ use lightning::onion_message::{DefaultMessageRouter, SimpleArcOnionMessenger};
 use lightning::routing::gossip;
 use lightning::routing::gossip::{NodeId, P2PGossipSync};
 use lightning::routing::router::DefaultRouter;
+use lightning::routing::scoring::ProbabilisticScoringFeeParameters;
 use lightning::sign::{EntropySource, InMemorySigner, KeysManager, SpendableOutputDescriptor};
 use lightning::util::config::UserConfig;
 use lightning::util::persist::KVStorePersister;
@@ -512,11 +513,13 @@ async fn start_ldk() {
 	)));
 
 	// Step 10: Create Router
+	let scoring_fee_params = ProbabilisticScoringFeeParameters::default();
 	let router = Arc::new(DefaultRouter::new(
 		network_graph.clone(),
 		logger.clone(),
 		keys_manager.get_secure_random_bytes(),
 		scorer.clone(),
+		scoring_fee_params,
 	));
 
 	// Step 11: Initialize the ChannelManager
