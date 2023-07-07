@@ -698,7 +698,7 @@ fn keysend<E: EntropySource>(
 	let payment_hash = PaymentHash(Sha256::hash(&payment_preimage.0[..]).into_inner());
 
 	let route_params = RouteParameters {
-		payment_params: PaymentParameters::for_keysend(payee_pubkey, 40),
+		payment_params: PaymentParameters::for_keysend(payee_pubkey, 40, false),
 		final_value_msat: amt_msat,
 	};
 	let status = match channel_manager.send_spontaneous_payment_with_retry(
