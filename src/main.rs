@@ -5,9 +5,12 @@ mod convert;
 mod disk;
 mod hex_utils;
 mod sweep;
+mod tower;
 
 use crate::bitcoind_client::BitcoindClient;
 use crate::disk::FilesystemLogger;
+use crate::tower::WatchtowerPersister;
+
 use bitcoin::blockdata::transaction::Transaction;
 use bitcoin::consensus::encode;
 use bitcoin::network::constants::Network;
@@ -30,7 +33,6 @@ use lightning::routing::router::DefaultRouter;
 use lightning::routing::scoring::ProbabilisticScoringFeeParameters;
 use lightning::sign::{EntropySource, InMemorySigner, KeysManager, SpendableOutputDescriptor};
 use lightning::util::config::UserConfig;
-use lightning::util::persist::KVStorePersister;
 use lightning::util::ser::ReadableArgs;
 use lightning_background_processor::{process_events_async, GossipSync};
 use lightning_block_sync::init;
@@ -87,7 +89,7 @@ type ChainMonitor = chainmonitor::ChainMonitor<
 	Arc<BitcoindClient>,
 	Arc<BitcoindClient>,
 	Arc<FilesystemLogger>,
-	Arc<FilesystemPersister>,
+	Arc<WatchtowerPersister>,
 >;
 
 pub(crate) type PeerManager = SimpleArcPeerManager<
@@ -110,7 +112,7 @@ async fn handle_ldk_events(
 	channel_manager: &Arc<ChannelManager>, bitcoind_client: &BitcoindClient,
 	network_graph: &NetworkGraph, keys_manager: &KeysManager,
 	inbound_payments: &PaymentInfoStorage, outbound_payments: &PaymentInfoStorage,
-	persister: &Arc<FilesystemPersister>, network: Network, event: Event,
+	persister: &Arc<WatchtowerPersister>, network: Network, event: Event,
 ) {
 	match event {
 		Event::FundingGenerationReady {
@@ -454,7 +456,7 @@ async fn start_ldk() {
 	let broadcaster = bitcoind_client.clone();
 
 	// Step 4: Initialize Persist
-	let persister = Arc::new(FilesystemPersister::new(ldk_data_dir.clone()));
+	let persister = Arc::new(WatchtowerPersister::new(ldk_data_dir.clone()));
 
 	// Step 5: Initialize the ChainMonitor
 	let chain_monitor: Arc<ChainMonitor> = Arc::new(chainmonitor::ChainMonitor::new(
@@ -733,12 +735,12 @@ async fn start_ldk() {
 	};
 
 	// Step 19: Persist ChannelManager and NetworkGraph
-	let persister = Arc::new(FilesystemPersister::new(ldk_data_dir.clone()));
+	let fs_persister = Arc::new(FilesystemPersister::new(ldk_data_dir.clone()));
 
 	// Step 20: Background Processing
 	let (bp_exit, bp_exit_check) = tokio::sync::watch::channel(());
 	let background_processor = tokio::spawn(process_events_async(
-		Arc::clone(&persister),
+		fs_persister,
 		event_handler,
 		chain_monitor.clone(),
 		channel_manager.clone(),

@@ -258,7 +258,7 @@ checksum = "201de327520df007757c1f0adce6e827fe8562fbc28bfd9c15571c66ca1f5f79"
 [[package]]
 name = "lightning"
 version = "0.0.116-alpha1"
-source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
+source = "git+https://github.com/sr-gi/rust-lightning?rev=2239fe45bf10367789160a73120ad70ba42482e3#2239fe45bf10367789160a73120ad70ba42482e3"
 dependencies = [
  "bitcoin",
  "musig2",
@@ -267,7 +267,7 @@ dependencies = [
 [[package]]
 name = "lightning-background-processor"
 version = "0.0.116-alpha1"
-source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
+source = "git+https://github.com/sr-gi/rust-lightning?rev=2239fe45bf10367789160a73120ad70ba42482e3#2239fe45bf10367789160a73120ad70ba42482e3"
 dependencies = [
  "bitcoin",
  "lightning",
@@ -277,7 +277,7 @@ dependencies = [
 [[package]]
 name = "lightning-block-sync"
 version = "0.0.116-alpha1"
-source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
+source = "git+https://github.com/sr-gi/rust-lightning?rev=2239fe45bf10367789160a73120ad70ba42482e3#2239fe45bf10367789160a73120ad70ba42482e3"
 dependencies = [
  "bitcoin",
  "chunked_transfer",
@@ -288,7 +288,7 @@ dependencies = [
 [[package]]
 name = "lightning-invoice"
 version = "0.24.0-alpha1"
-source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
+source = "git+https://github.com/sr-gi/rust-lightning?rev=2239fe45bf10367789160a73120ad70ba42482e3#2239fe45bf10367789160a73120ad70ba42482e3"
 dependencies = [
  "bech32 0.9.1",
  "bitcoin",
@@ -301,7 +301,7 @@ dependencies = [
 [[package]]
 name = "lightning-net-tokio"
 version = "0.0.116-alpha1"
-source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
+source = "git+https://github.com/sr-gi/rust-lightning?rev=2239fe45bf10367789160a73120ad70ba42482e3#2239fe45bf10367789160a73120ad70ba42482e3"
 dependencies = [
  "bitcoin",
  "lightning",
@@ -311,7 +311,7 @@ dependencies = [
 [[package]]
 name = "lightning-persister"
 version = "0.0.116-alpha1"
-source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
+source = "git+https://github.com/sr-gi/rust-lightning?rev=2239fe45bf10367789160a73120ad70ba42482e3#2239fe45bf10367789160a73120ad70ba42482e3"
 dependencies = [
  "bitcoin",
  "libc",
@@ -322,7 +322,7 @@ dependencies = [
 [[package]]
 name = "lightning-rapid-gossip-sync"
 version = "0.0.116-alpha1"
-source = "git+https://github.com/tnull/rust-lightning?branch=2023-07-expose-default-message-router#73ba28d8e4efca44a6c4848c06697661988e6931"
+source = "git+https://github.com/sr-gi/rust-lightning?rev=2239fe45bf10367789160a73120ad70ba42482e3#2239fe45bf10367789160a73120ad70ba42482e3"
 dependencies = [
  "bitcoin",
  "lightning",
