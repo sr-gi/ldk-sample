@@ -820,6 +820,7 @@ async fn start_ldk() {
 		Arc::clone(&logger),
 		Arc::clone(&persister),
 		Arc::clone(&bitcoind_client),
+		Arc::clone(&channel_manager),
 	));
 
 	// Start the CLI.
