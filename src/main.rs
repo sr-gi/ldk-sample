@@ -561,6 +561,7 @@ async fn start_ldk() {
 				keys_manager.clone(),
 				user_config,
 				chain_params,
+				cur.as_secs() as u32,
 			);
 			(polled_best_block_hash, fresh_channel_manager)
 		}
