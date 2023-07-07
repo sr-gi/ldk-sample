@@ -11,6 +11,7 @@ use bitcoin::secp256k1::PublicKey;
 use lightning::ln::channelmanager::{PaymentId, RecipientOnionFields, Retry};
 use lightning::ln::msgs::NetAddress;
 use lightning::ln::{PaymentHash, PaymentPreimage};
+use lightning::onion_message::OnionMessagePath;
 use lightning::onion_message::{CustomOnionMessageContents, Destination, OnionMessageContents};
 use lightning::routing::gossip::NodeId;
 use lightning::routing::router::{PaymentParameters, RouteParameters};
@@ -377,7 +378,7 @@ pub(crate) async fn poll_for_user_input(
 						);
 						continue;
 					}
-					let mut node_pks = Vec::new();
+					let mut intermediate_nodes = Vec::new();
 					let mut errored = false;
 					for pk_str in path_pks_str.unwrap().split(",") {
 						let node_pubkey_vec = match hex_utils::to_vec(pk_str) {
@@ -396,7 +397,7 @@ pub(crate) async fn poll_for_user_input(
 								break;
 							}
 						};
-						node_pks.push(node_pubkey);
+						intermediate_nodes.push(node_pubkey);
 					}
 					if errored {
 						continue;
@@ -415,10 +416,10 @@ pub(crate) async fn poll_for_user_input(
 							continue;
 						}
 					};
-					let destination_pk = node_pks.pop().unwrap();
+					let destination = Destination::Node(intermediate_nodes.pop().unwrap());
+					let message_path = OnionMessagePath { intermediate_nodes, destination };
 					match onion_messenger.send_onion_message(
-						&node_pks,
-						Destination::Node(destination_pk),
+						message_path,
 						OnionMessageContents::Custom(UserOnionMessageContents { tlv_type, data }),
 						None,
 					) {
